@@ -18,7 +18,7 @@ margin:0;
 
 .container{
 background:white;
-width:380px;
+width:420px;
 padding:40px;
 border-radius:20px;
 box-shadow:0 15px 35px rgba(0,0,0,0.08);
@@ -71,9 +71,19 @@ font-size:14px;
 color:#555;
 }
 
-ul{
+.wordLists{
+display:flex;
+gap:20px;
+margin-top:20px;
+}
+
+.listBox{
+flex:1;
 text-align:left;
-max-height:120px;
+}
+
+.listBox ul{
+max-height:150px;
 overflow:auto;
 padding-left:20px;
 }
@@ -132,8 +142,19 @@ animation:float 2s linear forwards;
 정답률: <span id="accuracy">0</span>%
 </div>
 
+<div class="wordLists">
+
+<div class="listBox">
 <h3>틀린 단어</h3>
 <ul id="wrongWords"></ul>
+</div>
+
+<div class="listBox">
+<h3>맞은 단어</h3>
+<ul id="correctWords"></ul>
+</div>
+
+</div>
 
 </div>
 
@@ -143,6 +164,8 @@ animation:float 2s linear forwards;
 
 let words=[];
 let wrongWords=[];
+let correctWords=[];
+
 let index=0;
 let current=null;
 let hideMode=false;
@@ -161,11 +184,14 @@ fetch(file)
 words=shuffle(data);
 
 wrongWords=[];
+correctWords=[];
+
 index=0;
 totalAnswered=0;
 correctCount=0;
 
 document.getElementById("wrongWords").innerHTML="";
+document.getElementById("correctWords").innerHTML="";
 
 updateStats();
 
@@ -229,6 +255,9 @@ correctCount++;
 document.getElementById("result").innerText="정답!";
 createHearts();
 
+correctWords.push(current);
+addCorrectWord(current);
+
 }else{
 
 document.getElementById("result").innerText="틀림! 정답: "+current.meaning;
@@ -264,6 +293,15 @@ const li=document.createElement("li");
 li.innerText=word.word+" - "+word.meaning;
 
 document.getElementById("wrongWords").appendChild(li);
+
+}
+
+function addCorrectWord(word){
+
+const li=document.createElement("li");
+li.innerText=word.word+" - "+word.meaning;
+
+document.getElementById("correctWords").appendChild(li);
 
 }
 
