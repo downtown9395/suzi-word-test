@@ -106,7 +106,17 @@ animation:float 2s linear forwards;
 
 <div class="container">
 
-<h2 id="word">Loading...</h2>
+<h3>Day 선택</h3>
+
+<select id="daySelect">
+<option value="words0.json">Day 0</option>
+<option value="words.json">Day 1</option>
+<option value="words2.json">Day 2</option>
+</select>
+
+<button onclick="loadDay()">단어 시작</button>
+
+<h2 id="word">Day 선택 후 시작</h2>
 
 <button onclick="speakWord()">🔊 발음</button>
 <button onclick="toggleMode()">뜻 가리기</button>
@@ -140,12 +150,30 @@ let hideMode=false;
 let totalAnswered=0;
 let correctCount=0;
 
-fetch("words.json")
+function loadDay(){
+
+const file=document.getElementById("daySelect").value;
+
+fetch(file)
 .then(res=>res.json())
 .then(data=>{
+
 words=shuffle(data);
+
+wrongWords=[];
+index=0;
+totalAnswered=0;
+correctCount=0;
+
+document.getElementById("wrongWords").innerHTML="";
+
+updateStats();
+
 nextWord();
+
 });
+
+}
 
 function shuffle(array){
 for(let i=array.length-1;i>0;i--){
