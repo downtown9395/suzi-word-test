@@ -246,13 +246,16 @@ if(!current) return;
 
 const input=document.getElementById("answer").value.trim();
 
+const meanings=current.meaning.split(",");
+
 totalAnswered++;
 
-if(input===current.meaning){
+if(meanings.some(m => input === m.trim())){
 
 correctCount++;
 
-document.getElementById("result").innerText="정답!";
+document.getElementById("result").innerText="정답! 정답: "+current.meaning;
+
 createHearts();
 
 correctWords.push(current);
@@ -269,7 +272,7 @@ addWrongWord(current);
 
 updateStats();
 
-setTimeout(nextWord,800);
+setTimeout(nextWord,1500);
 
 }
 
